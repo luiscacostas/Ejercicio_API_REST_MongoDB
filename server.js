@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const cowsay = require('cowsay')
 const app = express()
@@ -11,20 +12,17 @@ const morgan = require('./middlewares/morgan');
 app.use(morgan(':method :host :status :param[id] - :response-time ms :body'));
 
 // Rutas
-const productsApiRoutes = require("./routes/productsApi.routes")
-const productsRoutes = require("./routes/products.routes")
+//const productsApiRoutes = require("./routes/productsApi.routes")
+const providerRoutes = require('./routes/providers.routes');
+const productRoutes = require('./routes/products.routes');
 // const entriesApiRoutes = require("./routes/entriesApi.routes")
 
-app.use(express.json()); // Habilito recepción de JSON en servidor
+app.use(express.json());
 
 // Rutas
-//API
-app.use('/api/products',productsApiRoutes);
+app.use('/api/providers', providerRoutes);
+app.use('/api/products', productRoutes);
 
-//WEB
-app.use('/products',productsRoutes);
-
-// Para rutas no existentes
 app.use('*',error404);
 
 app.listen(port, () => {
